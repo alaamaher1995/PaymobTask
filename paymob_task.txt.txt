@@ -1,0 +1,50 @@
+//problem solving question 1
+
+
+public func solution(_ arrayInt: [Int]) -> Int {
+    let n = arrayInt.count + 1
+    var sum = (n * (n + 1)) / 2 // Sum of all elements from 1 to n+1
+    
+    for num in arrayInt {
+        sum -= num // Subtract each element from the sum
+    }
+    
+    return sum
+}
+
+// Example usage
+var arrayInt = [2, 3, 1, 5]
+let missingElement = solution(arrayInt)
+print(missingElement) // Output**: 4
+
+//------------------------------------------------------------------------------------------------------------------------//
+//problem solving question 2
+
+
+public func solution(_ N: Int, _ A: [Int]) -> [Int] {
+    var counters = Array(repeating: 0, count: N) // Initialize counters to 0
+    var maxCounter = 0 // Track the maximum counter value
+    var lastMaxCounter = 0 // Track the last max counter operation index
+    
+    for operation in A {
+        if operation >= 1 && operation <= N { // Increase operation
+            let counterIndex = operation - 1
+            counters[counterIndex] = max(counters[counterIndex], lastMaxCounter)
+            counters[counterIndex] += 1
+            maxCounter = max(maxCounter, counters[counterIndex])
+        } else if operation == N + 1 { // Max counter operation
+            lastMaxCounter = maxCounter
+        }
+    }
+    
+    for i in 0..<counters.count {
+        counters[i] = max(counters[i], lastMaxCounter)
+    }
+    
+    return counters
+}
+
+let N = 5
+let A = [3, 4, 4, 6, 1, 4, 4]
+let counterValues = solution(N, A)
+print(counterValues)
